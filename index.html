@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Django documentation</title>
+</head>
+
+<body>
+    <div class="flexbox">
+        <nav id="navbar">
+            
+                <header class="nav-header h-1">Django documentation</header>
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#home-collapse" aria-expanded="true">
+                            The model layer
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#Models" class="link-dark rounded nav-link">Models</a></li>
+                                <li><a href="#Quick_example" class="link-dark rounded nav-link">Quick example</a></li>
+                                <li><a href="#Using_models" class="link-dark rounded nav-link">Using models</a></li>
+                                <li><a href="#Fields" class="link-dark rounded nav-link">Fields</a></li>
+                                <li><a href="#Field_types" class="link-dark rounded nav-link">Field types</a></li>
+                                <li><a href="#Field_options" class="link-dark rounded nav-link">Field options</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#dashboard-collapse" aria-expanded="false">
+                            The view layer
+                        </button>
+                        <div class="collapse" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">one or more subsections</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#orders-collapse" aria-expanded="false">
+                            The template layer
+                        </button>
+                        <div class="collapse" id="orders-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">one or more subsections</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#account-collapse" aria-expanded="false">
+                            Forms
+                        </button>
+                        <div class="collapse" id="account-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">one or more subsections</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="border-top my-3"></li>
+                </ul>
+            
+        </nav>
+        <main id="main-doc" class="p-4">
+            <section id="Models" class="main-section">
+                <header class="h-2">Models</header>
+                <p>
+                    A model is the single, definitive source of information about your data. It contains the essential
+                    fields
+                    and behaviors of the data you’re storing. Generally, each model maps to a single database table.
+                    The basics:
+                <ul>
+                    <li>Each model is a Python class that subclasses <b>django.db.models.Model.</b></li>
+                    <li>Each attribute of the model represents a database field.</li>
+                    <li>With all of this, Django gives you an automatically-generated database-access API.</li>
+                </ul>
+                </p>
+            </section>
+            <section id="Quick_example" class="main-section">
+                <header class="h-2">Quick example</header>
+                <p>
+                    This example model defines a <b>Person</b>, which has a <b>first_name</b> and <b>last_name</b>:
+                </p>
+                <div class="card p-4">
+                    <code>
+                        from django.db import models<br>
+                        <br>
+                        class Person(models.Model):
+                        <div class="ms-4">
+                            first_name = models.CharField(max_length=30)<br>
+                            last_name = models.CharField(max_length=30)<br>
+                        </div>
+                    </code>
+                </div>
+                <p>
+                    <b>first_name</b> and <b>last_name</b> are fields of the model. Each field is specified as a class
+                    attribute, and each attribute maps to a database column.
+                </p>
+                <p>
+                    The above <b>Person model</b> would create a database table like this:
+                </p>
+                <div class="card p-4">
+                    <code>
+                        CREATE TABLE myapp_person (
+                        <div class="ms-4">
+                            "id" serial NOT NULL PRIMARY KEY,<br>
+                            "first_name" varchar(30) NOT NULL,<br>
+                            "last_name" varchar(30) NOT NULL
+                        </div>
+                        );
+                    </code>
+                </div>
+                <p>
+                    Some technical notes:
+                <ul>
+                    <li>The name of the table, <b>myapp_person</b>, is automatically derived from some model metadata
+                        but can be overridden. See Table names for more details.</li>
+                    <li>An <b>id</b> field is added automatically, but this behavior can be overridden. See Automatic
+                        primary key fields.</li0>
+                    <li>The <b>CREATE TABLE</b> SQL in this example is formatted using PostgreSQL syntax, but it’s worth
+                        noting Django uses SQL tailored to the database backend specified in your settings file.</li>
+                </ul>
+                </p>
+            </section>
+            <section id="Using_models" class="main-section">
+                <header class="h-2">Using models</header>
+                <p>
+                    Once you have defined your models, you need to tell Django you’re going to use those models. Do this
+                    by editing your settings file and changing the <b>INSTALLED_APPS</b> setting to add the name of the
+                    module that contains your <b>models.py</b>.
+                </p>
+                <p>For example, if the models for your application live in the module <b>myapp.models</b> (the package
+                    structure that is created for an application by the <b>manage.py startapp</b> script),
+                    <b>INSTALLED_APPS</b> should read, in part:
+                </p>
+                <div class="card p-4">
+                    <code>
+                        INSTALLED_APPS = [
+                        <div class="ms-4">
+                            #...
+                            'myapp',
+                            #...
+                        </div>
+                    ]
+                    </code>
+                </div>
+                <p>When you add new apps to <b>INSTALLED_APPS</b>, be sure to run <b>manage.py migrate</b>, optionally
+                    making migrations for them first with <b>manage.py makemigrations</b>.</p>
+            </section>
+            <section id="Fields" class="main-section">
+                <header class="h-2">Fields</header>
+                <p>
+                    The most important part of a model – and the only required part of a model – is the list of database
+                    fields it defines. Fields are specified by class attributes. Be careful not to choose field names
+                    that conflict with the models API like <b>clean</b>, <b>save</b>, or <b>delete</b>.
+                </p>
+                <p>
+                    Example:
+                </p>
+                <div class="card p-4">
+                    <code>
+                        from django.db import models<br>
+                        <br>
+                        class Musician(models.Model):
+                        <div class="ms-4">
+                            first_name = models.CharField(max_length=50)<br>
+                            last_name = models.CharField(max_length=50)<br>
+                            instrument = models.CharField(max_length=100)<br>
+                        </div>
+                        <br>
+                        class Album(models.Model):
+                        <div class="ms-4">
+                            artist = models.ForeignKey(Musician, on_delete=models.CASCADE)<br>
+                            name = models.CharField(max_length=100)<br>
+                            release_date = models.DateField()<br>
+                            num_stars = models.IntegerField()<br>
+                        </div>
+                        </code>
+                </div>
+            </section>
+            <section id="Field_types" class="main-section">
+                <header class="h-2">Field types</header>
+                <p>
+                    Each field in your model should be an instance of the appropriate <b>Field</b> class. Django uses
+                    the field class types to determine a few things:
+                <ul>
+                    <li>The column type, which tells the database what kind of data to store (e.g. <b>INTEGER</b>,
+                        <b>VARCHAR</b>, <b>TEXT</b>).
+                    </li>
+                    <li>The default HTML widget to use when rendering a form field (e.g. <b>&lt;input
+                            type="text"&gt;</b>, <b>&lt;select&gt;</b>).</li>
+                    <li>The minimal validation requirements, used in Django’s admin and in automatically-generated
+                        forms.</li>
+                </ul>
+                </p>
+                <p>
+                    Django ships with dozens of built-in field types; you can find the complete list in the model field
+                    reference. You can easily write your own fields if Django’s built-in ones don’t do the trick.
+                </p>
+            </section>
+            <section id="Field_options" class="main-section">
+                <header class="h-2">Field options</header>
+                <p>
+                    Each field takes a certain set of field-specific arguments. For example, <b>CharField</b> (and its subclasses) require a <b>max_length</b> argument which specifies the size of the <b>VARCHAR</b> database field used to store the data.
+                </p>
+                <p>There’s also a set of common arguments available to all field types. All are optional. They’re fully explained in the reference, but here’s a quick summary of the most often-used ones:</p>
+                <h3>null</h3>
+                <p>
+                    If <b>True</b>, Django will store empty values as <b>NULL</b> in the database. Default is <b>False</b>.
+                </p>
+                <h3>blank</h3>
+                <p>
+                    If <b>True</b>, the field is allowed to be blank. Default is <b>False</b>.
+                </p>
+                <p>
+                    Note that this is different than <b>null</b>. <b>null</b> is purely database-related, whereas <b>blank</b> is validation-related. If a field has <b>blank=True</b>, form validation will allow entry of an empty value. If a field has <b>blank=False</b>, the field will be required.
+                </p>
+                <h3>choices</h3>
+                <p>
+                    A sequence of 2-tuples to use as choices for this field. If this is given, the default form widget will be a select box instead of the standard text field and will limit choices to the choices given.
+                </p>
+                <p>
+                    A choices list looks like this:
+                </p>
+                <div class="card p-4">
+                    <code>
+                        YEAR_IN_SCHOOL_CHOICES = [
+                        <div class="ms-4">                    
+                            ('FR', 'Freshman'),<br>
+                            ('SO', 'Sophomore'),<br>
+                            ('JR', 'Junior'),<br>
+                            ('SR', 'Senior'),<br>
+                            ('GR', 'Graduate'),<br>
+                        </div>
+                        ]
+                    </code>
+                </div>
+
+
+                <p>
+                    This was a snippet of the original text provided at <a
+                        href="https://docs.djangoproject.com/en/4.0/topics/db/models/">docs.djangoproject.com</a>
+                </p>
+            </section>
+
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+        </main>
+    </div>
+</body>
+
+
+</html>
